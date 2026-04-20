@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Abscure Trade · NFT Fractal Exchange</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #0b0e14;
+      color: #eef2fb;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      line-height: 1.1;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 48px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #0855d1, #3d7eff);
+      border-radius: 4px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: transparent;
+      color: #eef2fb;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #0855d1, #0642a3);
+      box-shadow: 0 8px 20px rgba(8, 85, 209, 0.25);
+      border: none;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(145deg, #0747b3, #05388a);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(8, 85, 209, 0.35);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.03em;
+      color: white;
+    }
+    .logo i {
+      color: #0855d1;
+      font-size: 2rem;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #cbd5e8;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav a:hover {
+      color: white;
+    }
+
+    .wallet-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 20px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .wallet-btn i {
+      color: #0855d1;
+    }
+    .wallet-btn:hover {
+      background: rgba(8,85,209,0.1);
+      border-color: #0855d150;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: #eef2fb;
+      cursor: pointer;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 0 80px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(8,85,209,0.15);
+      color: #8ab4ff;
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+      border: 1px solid rgba(8,85,209,0.3);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #b0bedb;
+      margin: 24px 0 32px;
+      max-width: 500px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fractal-showcase {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .fractal-card-preview {
+      background: #151b26;
+      border-radius: 28px;
+      padding: 16px 12px;
+      border: 1px solid #2a3343;
+      transition: all 0.2s;
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.6);
+    }
+
+    .fractal-thumb {
+      aspect-ratio: 1/1;
+      border-radius: 18px;
+      margin-bottom: 12px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .fractal-pattern-1 {
+      background:
+        radial-gradient(circle at 30% 30%, #0855d120 0%, transparent 25%),
+        repeating-linear-gradient(45deg, #0855d110 0px, #0855d110 8px, #0642a308 8px, #0642a308 16px),
+        linear-gradient(145deg, #141a24, #1e2532);
+    }
+    .fractal-pattern-2 {
+      background:
+        radial-gradient(circle at 70% 60%, #ff7b9c20 0%, transparent 30%),
+        repeating-radial-gradient(circle at 20% 40%, #0855d120 0px, #0855d120 4px, transparent 4px, transparent 12px),
+        linear-gradient(125deg, #0f131c, #1a212e);
+    }
+    .fractal-pattern-3 {
+      background:
+        conic-gradient(from 90deg at 50% 50%, #0855d120 0deg 60deg, #3d7eff20 60deg 120deg, #6d9eff20 120deg 180deg, #0855d120 180deg 240deg, #3d7eff20 240deg 300deg, #0855d120 300deg 360deg),
+        repeating-linear-gradient(0deg, #2e3a4e20 0px, #2e3a4e20 2px, transparent 2px, transparent 8px);
+      background-blend-mode: overlay;
+    }
+    .fractal-pattern-4 {
+      background:
+        repeating-linear-gradient(30deg, #0855d120 0px, #0855d120 4px, #3d7eff20 4px, #3d7eff20 12px),
+        radial-gradient(circle at 80% 20%, #0855d130 0%, transparent 40%),
+        #0f172a;
+    }
+
+    .preview-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .preview-info span {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .preview-info small {
+      color: #8e9db5;
+      font-size: 0.8rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 60px 0;
+      background: #10151e;
+      border-radius: 48px;
+      padding: 40px 48px;
+      border: 1px solid #252e3e;
+    }
+
+    .stat-item h3 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff, #cbd5e8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .stat-item p {
+      color: #8e9db5;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.9rem;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .nft-card {
+      background: #121a24;
+      border-radius: 32px;
+      padding: 20px;
+      border: 1px solid #2d3748;
+      transition: transform 0.2s, border-color 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .nft-card:hover {
+      transform: translateY(-6px);
+      border-color: #0855d160;
+      box-shadow: 0 24px 36px -12px #00000080;
+    }
+
+    .nft-image {
+      aspect-ratio: 1/1;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      background-size: cover;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img-frac1 { background: radial-gradient(circle at 20% 30%, #0855d1, #0642a3), repeating-linear-gradient(45deg, #ffffff10 0px, #ffffff10 2px, transparent 2px, transparent 10px); background-blend-mode: overlay; }
+    .img-frac2 { background: conic-gradient(from 0deg at 50% 50%, #0855d1, #3d7eff, #6d9eff, #0855d1), repeating-radial-gradient(circle at 30% 30%, #fff1 0px, #fff1 3px, transparent 3px, transparent 12px); background-blend-mode: hard-light; }
+    .img-frac3 { background: repeating-linear-gradient(60deg, #0855d140 0px, #0855d140 4px, #3d7eff40 4px, #3d7eff40 10px), radial-gradient(circle at 70% 20%, #f472b6, #0855d1); background-blend-mode: overlay; }
+    .img-frac4 { background: repeating-radial-gradient(circle at 30% 40%, #0855d1, #3d7eff 8px), linear-gradient(45deg, #0f172a, #1e293b); }
+
+    .nft-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+    .nft-creator {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #253040;
+      padding-top: 16px;
+      margin-top: 8px;
+    }
+    .price {
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .eth-badge {
+      background: #2d3748;
+      padding: 4px 10px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: #b1c3e0;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 80px 0;
+    }
+    .benefit-item {
+      background: #10161f;
+      padding: 32px 28px;
+      border-radius: 36px;
+      border: 1px solid #283040;
+    }
+    .benefit-item i {
+      font-size: 2.2rem;
+      color: #0855d1;
+      margin-bottom: 24px;
+    }
+    .benefit-item h3 {
+      margin-bottom: 12px;
+    }
+    .benefit-item p {
+      color: #b1c3e0;
+    }
+
+    .footer {
+      border-top: 1px solid #202a38;
+      padding: 48px 0 32px;
+      margin-top: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      color: #7e8da3;
+    }
+    .social-links {
+      display: flex;
+      gap: 28px;
+    }
+    .social-links a {
+      color: #a0b3d0;
+      font-size: 1.4rem;
+      transition: color 0.2s;
+    }
+    .social-links a:hover {
+      color: white;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e2a3a;
+      backdrop-filter: blur(12px);
+      padding: 12px 20px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      border-left: 4px solid #0855d1;
+      z-index: 1000;
+      color: #eef2fb;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 24px;
+      }
+      .hero p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .section-title {
+        text-align: center;
+        display: block;
+      }
+      .stats-grid {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav {
+        display: none;
+      }
+      .wallet-btn span {
+        display: inline;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .footer {
+        flex-direction: column-reverse;
+        gap: 24px;
+        text-align: center;
+      }
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: #0f1620;
+      padding: 20px;
+      border-radius: 32px;
+      margin-top: 16px;
+      border: 1px solid #2e3b4b;
+    }
+    .mobile-nav a {
+      padding: 14px 0;
+      color: #e0e7ff;
+      text-decoration: none;
+      border-bottom: 1px solid #202a38;
+    }
+    .mobile-nav.active {
+      display: flex;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #ffffff, #b1c3e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header">
+      <div class="logo">
+        <i class="fas fa-cube"></i>
+        <span>Abscure Trade Evolution</span>
+      </div>
+      <nav class="nav">
+        <a href="#">Marketplace</a>
+        <a href="#">Collections</a>
+        <a href="#">Analytics</a>
+        <a href="#">About</a>
+      </nav>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <button class="wallet-btn" id="connectWalletBtn"><i class="fas fa-wallet"></i> <span id="walletBtnText">Connect</span></button>
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#">Marketplace</a>
+      <a href="#">Collections</a>
+      <a href="#">Analytics</a>
+      <a href="#">About</a>
+      <a href="#" id="mobileConnectBtn" style="border-bottom: none;">Connect Wallet</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="hero-badge"><i class="fas fa-chart-line" style="margin-right: 8px;"></i>Децентрализованная биржа фракталов</span>
+      <h1>Торгуйте <span class="text-gradient">NFT‑фракталами</span> с мгновенной ликвидностью</h1>
+      <p>Первая криптобиржа для коллекционеров математического искусства. Низкие комиссии, безопасность смарт-контрактов и бесконечная глубина.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary"><i class="fas fa-compass" style="margin-right: 8px;"></i>Исследовать</a>
+        <a href="#" class="btn btn-outline"><i class="fas fa-plus-circle"></i> Создать фрактал</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="fractal-showcase">
+        <div class="fractal-card-preview">
+          <div class="fractal-thumb fractal-pattern-1"></div>
+          <div class="preview-info"><span>Koch Snow</span><small>— ETH</small></div>
+        </div>
+        <div class="fractal-card-preview">
+          <div class="fractal-thumb fractal-pattern-2"></div>
+          <div class="preview-info"><span>Mandelbrot</span><small>— ETH</small></div>
+        </div>
+        <div class="fractal-card-preview">
+          <div class="fractal-thumb fractal-pattern-3"></div>
+          <div class="preview-info"><span>Julia D.</span><small>— ETH</small></div>
+        </div>
+        <div class="fractal-card-preview">
+          <div class="fractal-thumb fractal-pattern-4"></div>
+          <div class="preview-info"><span>Sierpinski</span><small>— ETH</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h3>—</h3>
+      <p>Объём торгов</p>
+    </div>
+    <div class="stat-item">
+      <h3>—</h3>
+      <p>Уникальных коллекционеров</p>
+    </div>
+    <div class="stat-item">
+      <h3>—</h3>
+      <p>Фрактальных NFT</p>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="section-title">Популярные фракталы</h2>
+    <div class="featured-grid">
+      <div class="nft-card">
+        <div class="nft-image img-frac1"></div>
+        <h4>Apollonian Gasket</h4>
+        <div class="nft-creator"><i class="fas fa-user-circle"></i> fractal_master</div>
+        <div class="price-row">
+          <span class="price"><i class="fab fa-ethereum" style="margin-right: 6px;"></i>— ETH</span>
+          <span class="eth-badge">—</span>
+        </div>
+      </div>
+      <div class="nft-card">
+        <div class="nft-image img-frac2"></div>
+        <h4>Burning Ship</h4>
+        <div class="nft-creator"><i class="fas fa-user-circle"></i> deep_math</div>
+        <div class="price-row">
+          <span class="price"><i class="fab fa-ethereum"></i> — ETH</span>
+          <span class="eth-badge">—</span>
+        </div>
+      </div>
+      <div class="nft-card">
+        <div class="nft-image img-frac3"></div>
+        <h4>Newton Fractal</h4>
+        <div class="nft-creator"><i class="fas fa-user-circle"></i> equation.eth</div>
+        <div class="price-row">
+          <span class="price"><i class="fab fa-ethereum"></i> — ETH</span>
+          <span class="eth-badge">—</span>
+        </div>
+      </div>
+      <div class="nft-card">
+        <div class="nft-image img-frac4"></div>
+        <h4>Pythagoras Tree</h4>
+        <div class="nft-creator"><i class="fas fa-user-circle"></i> geo.gen</div>
+        <div class="price-row">
+          <span class="price"><i class="fab fa-ethereum"></i> — ETH</span>
+          <span class="eth-badge">—</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 48px;">
+      <a href="#" class="btn btn-outline" style="padding: 14px 40px;">Посмотреть всю коллекцию <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+    </div>
+  </section>
+
+  <div class="benefits">
+    <div class="benefit-item">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Безопасность уровня институций</h3>
+      <p>Мультиподписные смарт-контракты, аудит от ведущих фирм, страхование активов.</p>
+    </div>
+    <div class="benefit-item">
+      <i class="fas fa-bolt"></i>
+      <h3>Мгновенная ликвидность</h3>
+      <p>Пулы ликвидности и автоматический маркет-мейкинг обеспечивают исполнение ордеров за секунды.</p>
+    </div>
+    <div class="benefit-item">
+      <i class="fas fa-chart-pie"></i>
+      <h3>Прозрачная комиссия —%</h3>
+      <p>Никаких скрытых сборов. Часть комиссий направляется держателям токена FRX.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-copy">
+      © 2026 Abscure Trade Evolution. Децентрализованная биржа фрактальных NFT. <br class="mobile-break">Все права защищены.
+    </div>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-discord"></i></a>
+      <a href="#"><i class="fab fa-telegram"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+</div>
+
+<div id="toastMsg" class="toast"></div>
+
+<script>
+  (function() {
+    const API_BASE_URL = 'http://localhost:8000';
+    const connectBtn = document.getElementById('connectWalletBtn');
+    const walletBtnSpan = document.getElementById('walletBtnText');
+    const mobileConnectBtn = document.getElementById('mobileConnectBtn');
+    const toast = document.getElementById('toastMsg');
+    let currentAccount = null;
+    let jwtToken = null;
+
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      toast.style.borderLeftColor = isError ? '#e5484d' : '#0855d1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 3500);
+    }
+
+    function shortenAddress(address) {
+      if (!address) return '';
+      return address.slice(0, 6) + '...' + address.slice(-4);
+    }
+
+    function updateUI(account) {
+      if (account) {
+        const short = shortenAddress(account);
+        walletBtnSpan.textContent = short;
+        if (mobileConnectBtn) mobileConnectBtn.textContent = short;
+        connectBtn.classList.add('connected');
+      } else {
+        walletBtnSpan.textContent = 'Connect';
+        if (mobileConnectBtn) mobileConnectBtn.textContent = 'Connect Wallet';
+        connectBtn.classList.remove('connected');
+      }
+    }
+
+    async function requestNonce(address) {
+      const response = await fetch(`${API_BASE_URL}/auth/nonce`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address })
+      });
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.detail || 'Failed to get nonce');
+      }
+      const data = await response.json();
+      return data.nonce;
+    }
+
+    async function loginWithSignature(address, signature) {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address, signature })
+      });
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.detail || 'Login failed');
+      }
+      const data = await response.json();
+      return data.access_token;
+    }
+
+    async function signMessage(message, fromAddress) {
+      try {
+        const signature = await window.ethereum.request({
+          method: 'personal_sign',
+          params: [message, fromAddress]
+        });
+        return signature;
+      } catch (err) {
+        console.error('Signing error:', err);
+        throw new Error('Подпись отклонена или ошибка: ' + (err.message || 'unknown'));
+      }
+    }
+
+    async function connectAndAuthenticate() {
+      if (!window.ethereum) {
+        showToast('❌ Web3 кошелёк не обнаружен!', true);
+        return false;
+      }
+
+      let selectedProvider = null;
+
+      if (window.ethereum?.providers && window.ethereum.providers.length > 0) {
+        const providersList = window.ethereum.providers;
+        const walletChoice = document.createElement('div');
+        walletChoice.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #151b26; padding: 20px; border-radius: 16px; z-index: 1000; border: 1px solid #0855d1;';
+        walletChoice.innerHTML = '<h3>Выберите кошелек</h3>';
+        for (const provider of providersList) {
+          const btn = document.createElement('button');
+          btn.textContent = provider.isMetaMask ? 'MetaMask' : (provider.isCoinbaseWallet ? 'Coinbase Wallet' : 'Другой кошелек');
+          btn.style.cssText = 'display: block; margin: 10px 0; padding: 10px; background: #0855d1; border: none; border-radius: 8px; color: white; cursor: pointer;';
+          btn.onclick = () => {
+            selectedProvider = provider;
+            document.body.removeChild(walletChoice);
+            proceedWithAuth(selectedProvider);
+          };
+          walletChoice.appendChild(btn);
+        }
+        document.body.appendChild(walletChoice);
+        return;
+      } else {
+        selectedProvider = window.ethereum;
+        proceedWithAuth(selectedProvider);
+      }
+
+      async function proceedWithAuth(provider) {
+        try {
+          const accounts = await provider.request({ method: 'eth_requestAccounts' });
+          if (accounts.length === 0) throw new Error('Нет доступных аккаунтов');
+          const account = accounts[0];
+          currentAccount = account;
+          updateUI(currentAccount);
+          showToast(`🟡 Получен адрес: ${shortenAddress(account)}. Запрос nonce...`);
+          const nonce = await requestNonce(currentAccount);
+          showToast(`📝 Подпишите сообщение в кошельке...`);
+          const message = `Вход на Abscure Trade: ${nonce}`;
+          const signature = await provider.request({
+            method: 'personal_sign',
+            params: [message, currentAccount]
+          });
+          showToast(`🔑 Отправка подписи на сервер...`);
+          const token = await loginWithSignature(currentAccount, signature);
+          jwtToken = token;
+          localStorage.setItem('jwt_token', token);
+          localStorage.setItem('wallet_address', currentAccount);
+          showToast(`✅ Успешный вход!`, false);
+        } catch (error) {
+          console.error(error);
+          showToast(`❌ Ошибка: ${error.message}`, true);
+          currentAccount = null;
+          updateUI(null);
+        }
+      }
+    }
+
+    function logout() {
+      currentAccount = null;
+      jwtToken = null;
+      localStorage.removeItem('jwt_token');
+      localStorage.removeItem('wallet_address');
+      updateUI(null);
+      showToast('👋 Вы вышли из системы', false);
+    }
+
+    function restoreSession() {
+      const savedToken = localStorage.getItem('jwt_token');
+      const savedAddress = localStorage.getItem('wallet_address');
+      if (savedToken && savedAddress) {
+        jwtToken = savedToken;
+        currentAccount = savedAddress;
+        updateUI(currentAccount);
+        showToast(`🔐 Сессия восстановлена: ${shortenAddress(currentAccount)}`, false);
+      }
+    }
+
+    async function onConnectClick() {
+      if (jwtToken && currentAccount) {
+        logout();
+      } else {
+        await connectAndAuthenticate();
+      }
+    }
+
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length === 0) {
+          logout();
+        } else if (accounts[0] !== currentAccount) {
+          showToast('🔄 Аккаунт изменён, требуется повторный вход.', false);
+          logout();
+        }
+      });
+      window.ethereum.on('chainChanged', (chainId) => {
+        showToast(`⛓️ Сеть изменена: ${parseInt(chainId, 16)}. Приложение работает на Ethereum Mainnet.`, false);
+      });
+    }
+
+    if (connectBtn) connectBtn.addEventListener('click', onConnectClick);
+    if (mobileConnectBtn) mobileConnectBtn.addEventListener('click', onConnectClick);
+
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (toggle && mobileNav) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileNav.classList.toggle('active');
+      });
+      document.addEventListener('click', function(event) {
+        if (!mobileNav.contains(event.target) && !toggle.contains(event.target)) {
+          mobileNav.classList.remove('active');
+        }
+      });
+    }
+
+    restoreSession();
+  })();
+</script>
+
+<style>
+  @media (max-width: 480px) {
+    .container { padding: 0 16px; }
+    .hero { padding: 30px 0 40px; }
+    .stats-grid { padding: 24px 16px; border-radius: 32px; }
+    .benefit-item { padding: 24px 20px; }
+    .fractal-showcase { gap: 8px; }
+    .mobile-break { display: block; }
+  }
+</style>
+</body>
+</html>
