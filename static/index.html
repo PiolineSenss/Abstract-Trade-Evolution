@@ -738,7 +738,7 @@
 
     async function connectAndAuthenticate() {
       if (!window.ethereum) {
-        showToast('❌ Web3 кошелёк не обнаружен!', true);
+        showToast('Web3 кошелек не обнаружен.', true);
         return false;
       }
 
@@ -774,23 +774,23 @@
           const account = accounts[0];
           currentAccount = account;
           updateUI(currentAccount);
-          showToast(`🟡 Получен адрес: ${shortenAddress(account)}. Запрос nonce...`);
+          showToast(`Получен адрес: ${shortenAddress(account)}. Запрос nonce...`);
           const nonce = await requestNonce(currentAccount);
-          showToast(`📝 Подпишите сообщение в кошельке...`);
+          showToast(`Подпишите сообщение в кошельке...`);
           const message = `Вход на Abscure Trade: ${nonce}`;
           const signature = await provider.request({
             method: 'personal_sign',
             params: [message, currentAccount]
           });
-          showToast(`🔑 Отправка подписи на сервер...`);
+          showToast(`Отправка подписи на сервер...`);
           const token = await loginWithSignature(currentAccount, signature);
           jwtToken = token;
           localStorage.setItem('jwt_token', token);
           localStorage.setItem('wallet_address', currentAccount);
-          showToast(`✅ Успешный вход!`, false);
+          showToast(`Успешный вход!`, false);
         } catch (error) {
           console.error(error);
-          showToast(`❌ Ошибка: ${error.message}`, true);
+          showToast(`Ошибка: ${error.message}`, true);
           currentAccount = null;
           updateUI(null);
         }
@@ -803,7 +803,7 @@
       localStorage.removeItem('jwt_token');
       localStorage.removeItem('wallet_address');
       updateUI(null);
-      showToast('👋 Вы вышли из системы', false);
+      showToast('Вы вышли из системы', false);
     }
 
     function restoreSession() {
@@ -813,7 +813,7 @@
         jwtToken = savedToken;
         currentAccount = savedAddress;
         updateUI(currentAccount);
-        showToast(`🔐 Сессия восстановлена: ${shortenAddress(currentAccount)}`, false);
+        showToast(`Сессия восстановлена: ${shortenAddress(currentAccount)}`, false);
       }
     }
 
@@ -830,12 +830,12 @@
         if (accounts.length === 0) {
           logout();
         } else if (accounts[0] !== currentAccount) {
-          showToast('🔄 Аккаунт изменён, требуется повторный вход.', false);
+          showToast('Аккаунт изменён, требуется повторный вход.', false);
           logout();
         }
       });
       window.ethereum.on('chainChanged', (chainId) => {
-        showToast(`⛓️ Сеть изменена: ${parseInt(chainId, 16)}. Приложение работает на Ethereum Mainnet.`, false);
+        showToast(`Сеть изменена: ${parseInt(chainId, 16)}. Приложение работает на Ethereum Mainnet.`, false);
       });
     }
 

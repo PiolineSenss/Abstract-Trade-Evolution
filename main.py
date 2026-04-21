@@ -1,14 +1,12 @@
 from flask import Flask, send_from_directory
 from flask_cors import CORS
-from routers.auth import auth_bp   # импортируем Blueprint
+from routers.auth import auth_bp
 
 app = Flask(__name__, static_folder='static')
 CORS(app)
 
-# Регистрируем Blueprint для авторизации
 app.register_blueprint(auth_bp)
 
-# Отдаём index.html из папки static
 @app.route('/')
 def serve_index():
     return send_from_directory('static', 'index.html')
