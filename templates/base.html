@@ -2,8 +2,9 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Abscure Trade · NFT Fractal Exchange</title>
+  <title>{% block title %}Abscure Trade · NFT Fractal Exchange{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -162,6 +163,7 @@
       cursor: pointer;
     }
 
+    /* Герой-секция */
     .hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -267,6 +269,7 @@
       font-size: 0.8rem;
     }
 
+    /* Статистика */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -294,6 +297,7 @@
       font-size: 0.9rem;
     }
 
+    /* Карточки NFT */
     .featured-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -361,6 +365,7 @@
       color: #b1c3e0;
     }
 
+    /* Преимущества */
     .benefits {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -385,6 +390,7 @@
       color: #b1c3e0;
     }
 
+    /* Футер */
     .footer {
       border-top: 1px solid #202a38;
       padding: 48px 0 32px;
@@ -426,6 +432,32 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #ffffff, #b1c3e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: #0f1620;
+      padding: 20px;
+      border-radius: 32px;
+      margin-top: 16px;
+      border: 1px solid #2e3b4b;
+    }
+    .mobile-nav a {
+      padding: 14px 0;
+      color: #e0e7ff;
+      text-decoration: none;
+      border-bottom: 1px solid #202a38;
+    }
+    .mobile-nav.active {
+      display: flex;
     }
 
     @media (max-width: 900px) {
@@ -478,32 +510,16 @@
       }
     }
 
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      background: #0f1620;
-      padding: 20px;
-      border-radius: 32px;
-      margin-top: 16px;
-      border: 1px solid #2e3b4b;
-    }
-    .mobile-nav a {
-      padding: 14px 0;
-      color: #e0e7ff;
-      text-decoration: none;
-      border-bottom: 1px solid #202a38;
-    }
-    .mobile-nav.active {
-      display: flex;
-    }
-
-    .text-gradient {
-      background: linear-gradient(135deg, #ffffff, #b1c3e0);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .hero { padding: 30px 0 40px; }
+      .stats-grid { padding: 24px 16px; border-radius: 32px; }
+      .benefit-item { padding: 24px 20px; }
+      .fractal-showcase { gap: 8px; }
+      .mobile-break { display: block; }
     }
   </style>
+  {% block extra_css %}{% endblock %}
 </head>
 <body>
 <div class="container">
@@ -514,7 +530,7 @@
         <span>Abscure Trade Evolution</span>
       </div>
       <nav class="nav">
-        <a href="#">Marketplace</a>
+        <a href="/">Marketplace</a>
         <a href="#">Collections</a>
         <a href="#">Analytics</a>
         <a href="#">About</a>
@@ -525,7 +541,7 @@
       </div>
     </div>
     <div class="mobile-nav" id="mobileNav">
-      <a href="#">Marketplace</a>
+      <a href="/">Marketplace</a>
       <a href="#">Collections</a>
       <a href="#">Analytics</a>
       <a href="#">About</a>
@@ -533,115 +549,9 @@
     </div>
   </header>
 
-  <section class="hero">
-    <div>
-      <span class="hero-badge"><i class="fas fa-chart-line" style="margin-right: 8px;"></i>Децентрализованная биржа фракталов</span>
-      <h1>Торгуйте <span class="text-gradient">NFT‑фракталами</span> с мгновенной ликвидностью</h1>
-      <p>Первая криптобиржа для коллекционеров математического искусства. Низкие комиссии, безопасность смарт-контрактов и бесконечная глубина.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn btn-primary"><i class="fas fa-compass" style="margin-right: 8px;"></i>Исследовать</a>
-        <a href="#" class="btn btn-outline"><i class="fas fa-plus-circle"></i> Создать фрактал</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="fractal-showcase">
-        <div class="fractal-card-preview">
-          <div class="fractal-thumb fractal-pattern-1"></div>
-          <div class="preview-info"><span>Koch Snow</span><small>— ETH</small></div>
-        </div>
-        <div class="fractal-card-preview">
-          <div class="fractal-thumb fractal-pattern-2"></div>
-          <div class="preview-info"><span>Mandelbrot</span><small>— ETH</small></div>
-        </div>
-        <div class="fractal-card-preview">
-          <div class="fractal-thumb fractal-pattern-3"></div>
-          <div class="preview-info"><span>Julia D.</span><small>— ETH</small></div>
-        </div>
-        <div class="fractal-card-preview">
-          <div class="fractal-thumb fractal-pattern-4"></div>
-          <div class="preview-info"><span>Sierpinski</span><small>— ETH</small></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="stats-grid">
-    <div class="stat-item">
-      <h3>—</h3>
-      <p>Объём торгов</p>
-    </div>
-    <div class="stat-item">
-      <h3>—</h3>
-      <p>Уникальных коллекционеров</p>
-    </div>
-    <div class="stat-item">
-      <h3>—</h3>
-      <p>Фрактальных NFT</p>
-    </div>
-  </div>
-
-  <section>
-    <h2 class="section-title">Популярные фракталы</h2>
-    <div class="featured-grid">
-      <div class="nft-card">
-        <div class="nft-image img-frac1"></div>
-        <h4>Apollonian Gasket</h4>
-        <div class="nft-creator"><i class="fas fa-user-circle"></i> fractal_master</div>
-        <div class="price-row">
-          <span class="price"><i class="fab fa-ethereum" style="margin-right: 6px;"></i>— ETH</span>
-          <span class="eth-badge">—</span>
-        </div>
-      </div>
-      <div class="nft-card">
-        <div class="nft-image img-frac2"></div>
-        <h4>Burning Ship</h4>
-        <div class="nft-creator"><i class="fas fa-user-circle"></i> deep_math</div>
-        <div class="price-row">
-          <span class="price"><i class="fab fa-ethereum"></i> — ETH</span>
-          <span class="eth-badge">—</span>
-        </div>
-      </div>
-      <div class="nft-card">
-        <div class="nft-image img-frac3"></div>
-        <h4>Newton Fractal</h4>
-        <div class="nft-creator"><i class="fas fa-user-circle"></i> equation.eth</div>
-        <div class="price-row">
-          <span class="price"><i class="fab fa-ethereum"></i> — ETH</span>
-          <span class="eth-badge">—</span>
-        </div>
-      </div>
-      <div class="nft-card">
-        <div class="nft-image img-frac4"></div>
-        <h4>Pythagoras Tree</h4>
-        <div class="nft-creator"><i class="fas fa-user-circle"></i> geo.gen</div>
-        <div class="price-row">
-          <span class="price"><i class="fab fa-ethereum"></i> — ETH</span>
-          <span class="eth-badge">—</span>
-        </div>
-      </div>
-    </div>
-    <div style="text-align: center; margin-top: 48px;">
-      <a href="#" class="btn btn-outline" style="padding: 14px 40px;">Посмотреть всю коллекцию <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
-    </div>
-  </section>
-
-  <div class="benefits">
-    <div class="benefit-item">
-      <i class="fas fa-shield-alt"></i>
-      <h3>Безопасность уровня институций</h3>
-      <p>Мультиподписные смарт-контракты, аудит от ведущих фирм, страхование активов.</p>
-    </div>
-    <div class="benefit-item">
-      <i class="fas fa-bolt"></i>
-      <h3>Мгновенная ликвидность</h3>
-      <p>Пулы ликвидности и автоматический маркет-мейкинг обеспечивают исполнение ордеров за секунды.</p>
-    </div>
-    <div class="benefit-item">
-      <i class="fas fa-chart-pie"></i>
-      <h3>Прозрачная комиссия —%</h3>
-      <p>Никаких скрытых сборов. Часть комиссий направляется держателям токена FRX.</p>
-    </div>
-  </div>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
 
   <footer class="footer">
     <div class="footer-copy">
@@ -859,16 +769,6 @@
     restoreSession();
   })();
 </script>
-
-<style>
-  @media (max-width: 480px) {
-    .container { padding: 0 16px; }
-    .hero { padding: 30px 0 40px; }
-    .stats-grid { padding: 24px 16px; border-radius: 32px; }
-    .benefit-item { padding: 24px 20px; }
-    .fractal-showcase { gap: 8px; }
-    .mobile-break { display: block; }
-  }
-</style>
+{% block extra_js %}{% endblock %}
 </body>
 </html>
