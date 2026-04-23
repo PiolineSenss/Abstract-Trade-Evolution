@@ -145,6 +145,7 @@
       font-weight: 500;
       transition: 0.2s;
       cursor: pointer;
+      color: #ffffff;
     }
     .wallet-btn i {
       color: #0855d1;
@@ -163,7 +164,6 @@
       cursor: pointer;
     }
 
-    /* Герой-секция */
     .hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -269,7 +269,6 @@
       font-size: 0.8rem;
     }
 
-    /* Статистика */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -297,7 +296,6 @@
       font-size: 0.9rem;
     }
 
-    /* Карточки NFT */
     .featured-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -365,7 +363,6 @@
       color: #b1c3e0;
     }
 
-    /* Преимущества */
     .benefits {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -390,7 +387,6 @@
       color: #b1c3e0;
     }
 
-    /* Футер */
     .footer {
       border-top: 1px solid #202a38;
       padding: 48px 0 32px;
@@ -491,6 +487,7 @@
         display: none;
       }
       .wallet-btn span {
+        color: #a0b3d0;
         display: inline;
       }
       .menu-toggle {
@@ -518,6 +515,42 @@
       .fractal-showcase { gap: 8px; }
       .mobile-break { display: block; }
     }
+
+    .wallet-dropdown {
+      position: absolute;
+      top: 110%;
+      right: 0;
+      background: #121a24;
+      border: 1px solid #2d3748;
+      border-radius: 16px;
+      padding: 8px 0;
+      min-width: 180px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+      z-index: 1001;
+      backdrop-filter: blur(10px);
+    }
+
+    .wallet-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      color: #cbd5e8;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+
+    .wallet-dropdown a:hover {
+      background: #0855d120;
+      color: white;
+    }
+
+    .wallet-dropdown hr {
+      border: 0;
+      border-top: 1px solid #2d3748;
+      margin: 4px 12px;
+    }
   </style>
   {% block extra_css %}{% endblock %}
 </head>
@@ -531,20 +564,31 @@
       </div>
       <nav class="nav">
         <a href="/">Marketplace</a>
-        <a href="#">Collections</a>
-        <a href="#">Analytics</a>
-        <a href="#">About</a>
+        <a href="/collections">Collections</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/about">About</a>
       </nav>
       <div style="display: flex; gap: 16px; align-items: center;">
-        <button class="wallet-btn" id="connectWalletBtn"><i class="fas fa-wallet"></i> <span id="walletBtnText">Connect</span></button>
+        <div style="position: relative;" id="walletBtnContainer">
+          <button class="wallet-btn" id="connectWalletBtn">
+            <i class="fas fa-wallet"></i> <span id="walletBtnText">Connect</span> <i class="fas fa-caret-down" style="margin-left: 6px;"></i>
+          </button>
+          <div id="walletDropdown" class="wallet-dropdown" style="display: none;">
+            <a href="/profile"><i class="fas fa-user"></i> Личный кабинет</a>
+            <a href="/my-nfts"><i class="fas fa-image"></i> Мои NFT</a>
+            <a href="/settings"><i class="fas fa-cog"></i> Настройки</a>
+            <hr style="border-color: #253040; margin: 4px 0;">
+            <a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+          </div>
+        </div>
         <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
       </div>
     </div>
     <div class="mobile-nav" id="mobileNav">
       <a href="/">Marketplace</a>
-      <a href="#">Collections</a>
-      <a href="#">Analytics</a>
-      <a href="#">About</a>
+      <a href="/collections">Collections</a>
+      <a href="/analytics">Analytics</a>
+      <a href="/about">About</a>
       <a href="#" id="mobileConnectBtn" style="border-bottom: none;">Connect Wallet</a>
     </div>
   </header>
@@ -575,6 +619,8 @@
     const walletBtnSpan = document.getElementById('walletBtnText');
     const mobileConnectBtn = document.getElementById('mobileConnectBtn');
     const toast = document.getElementById('toastMsg');
+    const dropdown = document.getElementById('walletDropdown');
+    const logoutLink = document.getElementById('logoutLink');
     let currentAccount = null;
     let jwtToken = null;
 
@@ -594,14 +640,31 @@
 
     function updateUI(account) {
       if (account) {
-        const short = shortenAddress(account);
-        walletBtnSpan.textContent = short;
-        if (mobileConnectBtn) mobileConnectBtn.textContent = short;
+        walletBtnSpan.textContent = 'Личный кабинет';
+        if (mobileConnectBtn) mobileConnectBtn.textContent = 'Личный кабинет';
         connectBtn.classList.add('connected');
       } else {
         walletBtnSpan.textContent = 'Connect';
         if (mobileConnectBtn) mobileConnectBtn.textContent = 'Connect Wallet';
         connectBtn.classList.remove('connected');
+        if (dropdown) dropdown.style.display = 'none';
+      }
+    }
+
+    function toggleDropdown() {
+      if (!dropdown) return;
+      if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+      } else {
+        dropdown.style.display = 'block';
+      }
+    }
+
+    function closeDropdown(e) {
+      if (!dropdown || dropdown.style.display === 'none') return;
+      const container = document.getElementById('walletBtnContainer');
+      if (container && !container.contains(e.target)) {
+        dropdown.style.display = 'none';
       }
     }
 
@@ -631,19 +694,6 @@
       }
       const data = await response.json();
       return data.access_token;
-    }
-
-    async function signMessage(message, fromAddress) {
-      try {
-        const signature = await window.ethereum.request({
-          method: 'personal_sign',
-          params: [message, fromAddress]
-        });
-        return signature;
-      } catch (err) {
-        console.error('Signing error:', err);
-        throw new Error('Подпись отклонена или ошибка: ' + (err.message || 'unknown'));
-      }
     }
 
     async function connectAndAuthenticate() {
@@ -723,16 +773,52 @@
         jwtToken = savedToken;
         currentAccount = savedAddress;
         updateUI(currentAccount);
-        showToast(`Сессия восстановлена: ${shortenAddress(currentAccount)}`, false);
       }
     }
 
-    async function onConnectClick() {
+    async function onConnectClick(e) {
+      e.stopPropagation();
       if (jwtToken && currentAccount) {
-        logout();
+        toggleDropdown();
       } else {
         await connectAndAuthenticate();
       }
+    }
+
+    function onMobileConnectClick(e) {
+      e.preventDefault();
+      if (jwtToken && currentAccount) {
+        window.location.href = '/profile';
+      } else {
+        connectAndAuthenticate();
+      }
+    }
+
+    if (connectBtn) connectBtn.addEventListener('click', onConnectClick);
+    if (mobileConnectBtn) mobileConnectBtn.addEventListener('click', onMobileConnectClick);
+
+    document.addEventListener('click', closeDropdown);
+
+    if (logoutLink) {
+      logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        logout();
+        if (dropdown) dropdown.style.display = 'none';
+      });
+    }
+
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (toggle && mobileNav) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileNav.classList.toggle('active');
+      });
+      document.addEventListener('click', function(event) {
+        if (!mobileNav.contains(event.target) && !toggle.contains(event.target)) {
+          mobileNav.classList.remove('active');
+        }
+      });
     }
 
     if (window.ethereum) {
@@ -746,23 +832,6 @@
       });
       window.ethereum.on('chainChanged', (chainId) => {
         showToast(`Сеть изменена: ${parseInt(chainId, 16)}. Приложение работает на Ethereum Mainnet.`, false);
-      });
-    }
-
-    if (connectBtn) connectBtn.addEventListener('click', onConnectClick);
-    if (mobileConnectBtn) mobileConnectBtn.addEventListener('click', onConnectClick);
-
-    const toggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    if (toggle && mobileNav) {
-      toggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        mobileNav.classList.toggle('active');
-      });
-      document.addEventListener('click', function(event) {
-        if (!mobileNav.contains(event.target) && !toggle.contains(event.target)) {
-          mobileNav.classList.remove('active');
-        }
       });
     }
 
