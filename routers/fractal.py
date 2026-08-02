@@ -116,7 +116,7 @@ def generate_fractal_data(formula_str, x_range, y_range, res):
             z = z_new
             if not np.any(mask):
                 break
-        except:
+        except Exception:
             break
     if fractal_map.max() > 0:
         fractal_map = np.log1p(fractal_map)
@@ -133,7 +133,7 @@ def find_good_fractal():
             unique_vals = len(np.unique(data))
             if 5 < unique_vals < 45:
                 return f
-        except:
+        except Exception:
             continue
     return "z**2 + c"
 

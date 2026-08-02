@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify, make_response
 from eth_account import Account
 from eth_account.messages import encode_defunct
-from jose import jwt
+from jose import jwt, JWTError
 from datetime import datetime, timedelta
+import os
 import secrets
 from expiringdict import ExpiringDict
 from models import db, User
@@ -10,7 +11,7 @@ from functools import wraps
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-SECRET_KEY = "NFHIBSNJKbOBFPHYBEDFnmdfsdufnNFIUDFODFJE8HFiupdhgbfyg)*^fd&^%dfSC7fyZScxUCBH78SGXCScbdsgb8&GBADSHfc_&(*DGFDSbgciuDGBCDSGBCDS&YGBVcfdbuGD&FVSBD87vgDSCFSdcvoihfbwsgrvOIUUWOIRRWVBNGOIU"
+SECRET_KEY = os.environ.get("SECRET_KEY", secrets.token_hex(64))
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
@@ -62,7 +63,7 @@ def get_current_user_from_token():
         if address:
             user = User.query.filter_by(wallet_address=address).first()
             return user
-    except:
+    except JWTError:
         pass
     return None
 
@@ -164,7 +165,7 @@ def get_me():
                     "last_login": user.last_login.isoformat() if user.last_login else None
                 })
                 return _corsify_actual_response(response)
-    except:
+    except JWTError:
         pass
     return jsonify({"error": "unauthorized"}), 401
 
